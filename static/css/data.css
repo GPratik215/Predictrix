@@ -1,0 +1,113 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+/* Container Styling */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Heading Styling */
+h1 {
+    text-align: center;
+    color: #99f2c8;
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+
+/* Filter Container */
+.filter-container {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.filter-container input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 600px;
+}
+
+/* Table Container */
+.table-container {
+    width: 100%;
+    margin: 0 auto;
+    overflow-x: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background-color: #1e1e1e;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #2a2a2a;
+}
+
+tr:hover {
+    background-color: #333;
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 768px) {
+    table {
+        font-size: 14px;
+    }
+
+    th, td {
+        padding: 10px 12px;
+    }
+}
+
+/* Hover Effects */
+th, td {
+    transition: background-color 0.3s ease;
+}
+
+tr:hover td {
+    background-color: #444;
+}
+
+/* Table Header */
+th {
+    background-color: #99f2c8;
+    color: #121212;
+    font-weight: bold;
+}
+
+/* Table Data */
+td {
+    background-color: #1e1e1e;
+}

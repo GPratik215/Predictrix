@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Splunk Data</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/data.css') }}">
+    <style>
+        .push-button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .push-button:hover {
+            background-color: #0056b3;
+        }
+
+        .button-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Fetching Data From Splunk...</h1>
+
+        <div class="filter-container">
+            <input type="text" id="filter-input" placeholder="Filter by User ID, Page, Location, Event, or Device..." onkeyup="filterTable()">
+        </div>
+
+        <div class="button-container">
+            <button class="push-button" id="pushDataButton">Click to Push Data into Splunk</button>
+        </div>
+
+        <div class="table-container">
+            <table id="data-table" aria-label="Live Splunk Data Table">
+                <thead>
+                    <tr>
+                        <th scope="col">User ID</th>
+                        <th scope="col">Page</th>
+                        <th scope="col">Location</th>
+                        <th scope="col">Event</th>
+                        <th scope="col">Device</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in results %}
+                    <tr>
+                        <td>{{ row.user_id }}</td>
+                        <td>{{ row.page }}</td>
+                        <td>{{ row.location }}</td>
+                        <td>{{ row.event }}</td>
+                        <td>{{ row.device }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function filterTable() {
+            const input = document.getElementById('filter-input');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('data-table');
+            const trs = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < trs.length; i++) {
+                const tds = trs[i].getElementsByTagName('td');
+                let showRow = false;
+
+                for (let j = 0; j < tds.length; j++) {
+                    if (tds[j]) {
+                        const txtValue = tds[j].innerText || tds[j].textContent;
+                        if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                            showRow = true;
+                            break;
+                        }
+                    }
+                }
+
+                trs[i].style.display = showRow ? '' : 'none';
+            }
+        }
+
+        // When the button is clicked, send a POST request to the Flask server
+        document.getElementById('pushDataButton').onclick = function() {
+            fetch('/push-data', { method: 'POST' })
+                .then(response => response.json())  // Parse the JSON response
+                .then(data => {
+                    alert(data.message);  // Show success or error message
+                    if (data.message === "Data successfully sent to Splunk!") {
+                        location.reload();  // Refresh the page if data was successfully sent
+                    }
+                })
+                .catch(error => console.error('Error:', error));  // Handle any errors
+        };
+
+        src="{{ url_for('static', filename='js/script.js') }}"
+    </script>
+</body>
+
+</html>
